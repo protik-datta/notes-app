@@ -7,7 +7,7 @@ const generateToken = (id) => {
   });
 };
 
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -25,11 +25,12 @@ exports.register = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: error.message || "Server error" });
   }
 };
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -45,6 +46,7 @@ exports.login = async (req, res) => {
       res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: error.message || "Server error" });
   }
 };

@@ -23,10 +23,10 @@ const Register = ({ onLoginSuccess }) => {
     setError("");
 
     try {
-      const { data } = await api.post("/api/register", { email, password });
+      const { data } = await api.post("/api/auth/register", { email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify({ email: data.email }));
-      onLoginSuccess(data.email);
+      onLoginSuccess?.(data.email);
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed. Please try again.");

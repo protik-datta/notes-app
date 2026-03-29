@@ -17,10 +17,10 @@ const Login = ({ onLoginSuccess }) => {
     setError("");
 
     try {
-      const { data } = await api.post("/api/login", { email, password });
+      const { data } = await api.post("/api/auth/login", { email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify({ email: data.email }));
-      onLoginSuccess(data.email);
+      onLoginSuccess?.(data.email);
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed. Please check your credentials.");
