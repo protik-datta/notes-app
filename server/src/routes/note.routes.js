@@ -1,13 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const noteController = require("../controllers/note.controller");
-const multer = require("multer");
-const upload = multer();
+const authMiddleware = require("../middleware/auth.middleware");
 
-router.post("/", upload.none(), noteController.createNote);
-router.get("/", noteController.getNotes);
-router.get("/:id", noteController.getNoteById);
-router.patch("/:id",upload.none(), noteController.updateNote);
-router.delete("/:id", noteController.deleteNote);
+const {
+  createNote,
+  getNotes,
+  getNoteById,
+  updateNote,
+  deleteNote,
+} = require("../controllers/note.controller");
+
+// Protect all note routes
+router.use(authMiddleware);
+
+router.post("/", createNote);
+router.get("/", getNotes);
+router.get("/:id", getNoteById);
+router.patch("/:id", updateNote);
+router.delete("/:id", deleteNote);
 
 module.exports = router;

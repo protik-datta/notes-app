@@ -4,7 +4,11 @@ const Note = require("../models/note.models");
 exports.createNote = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const note = await Note.create({ title, description });
+    const note = await Note.create({
+      title,
+      description,
+      userId: req.user.id,
+    });
 
     res.status(201).json(note);
   } catch (error) {
@@ -12,23 +16,26 @@ exports.createNote = async (req, res) => {
   }
 };
 
-// GET ALL NOTES
+// GET ALL NOTES FOR LOGGED IN USER
 exports.getNotes = async (req, res) => {
   try {
-    const notes = await Note.find();
+    const notes = await Note.find({ userId: req.user.id }).sort({
+      isPinned: -1,
+      createdAt: -1,
+    });
     res.status(200).json(notes);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// GET NOTE BY ID
+// GET SINGLE NOTE (only if owned)
 exports.getNoteById = async (req, res) => {
   try {
-    const note = await Note.findById(req.params.id);
+    const note = await Note.findOne({ _id: req.params.id, userId: req.user.id });
 
     if (!note) {
-      return res.status(404).json({ message: "Note not found" });
+      return res.status(404).json({ message: "Note not found or unauthorized" });
     }
     res.status(200).json(note);
   } catch (error) {
@@ -36,13 +43,13 @@ exports.getNoteById = async (req, res) => {
   }
 };
 
-// UPDATE NOTE
+// UPDATE NOTE (only if owned)
 exports.updateNote = async (req, res) => {
   try {
     const { title, description, isPinned } = req.body;
 
-    const note = await Note.findByIdAndUpdate(
-      req.params.id,
+    const note = await Note.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
       {
         title,
         description,
@@ -51,16 +58,28 @@ exports.updateNote = async (req, res) => {
       { new: true },
     );
 
+    if (!note) {
+      return res.status(404).json({ message: "Note not found or unauthorized" });
+    }
+
     res.status(200).json(note);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// DELETE NOTE
+// DELETE NOTE (only if owned)
 exports.deleteNote = async (req, res) => {
   try {
-    await Note.findByIdAndDelete(req.params.id);
+    const note = await Note.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user.id,
+    });
+
+    if (!note) {
+      return res.status(404).json({ message: "Note not found or unauthorized" });
+    }
+
     res.status(200).json({ message: "Note deleted" });
   } catch (error) {
     res.status(500).json({ message: error.message });
