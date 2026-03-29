@@ -17,7 +17,8 @@ const NoteCard = ({ note, onEdit, onDelete, onPin }) => {
 
   return (
     <div
-      className={`group relative flex flex-col gap-3 rounded-2xl border p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl
+      className={`group relative flex flex-col gap-2 sm:gap-3 rounded-xl sm:rounded-2xl border p-3.5 sm:p-5 transition-all duration-300
+        hover:-translate-y-1 hover:shadow-2xl
         ${
           note.isPinned
             ? "border-amber-400/60 bg-amber-50/80 shadow-amber-100 shadow-lg"
@@ -27,10 +28,11 @@ const NoteCard = ({ note, onEdit, onDelete, onPin }) => {
       `}
       style={{ transition: "all 0.3s cubic-bezier(.4,0,.2,1)" }}
     >
+      {/* Pin badge */}
       {note.isPinned && (
-        <div className="absolute -top-2 -right-2 flex items-center justify-center w-7 h-7 rounded-full bg-amber-400 shadow-md">
+        <div className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-400 shadow-md">
           <svg
-            className="w-3.5 h-3.5 text-white"
+            className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -39,36 +41,40 @@ const NoteCard = ({ note, onEdit, onDelete, onPin }) => {
         </div>
       )}
 
+      {/* Title */}
       <div className="flex items-start justify-between gap-2">
         <h3
-          className="text-[15px] font-semibold leading-snug text-stone-800 tracking-tight line-clamp-2 cursor-pointer hover:text-amber-600 transition-colors"
+          className="text-sm sm:text-[15px] font-semibold leading-snug text-stone-800 tracking-tight line-clamp-2 cursor-pointer hover:text-amber-600 transition-colors"
           onClick={() => onEdit(note)}
         >
           {note.title}
         </h3>
       </div>
 
-      <p className="text-[13px] text-stone-500 leading-relaxed line-clamp-3 flex-1">
+      {/* Description */}
+      <p className="text-xs sm:text-[13px] text-stone-500 leading-relaxed line-clamp-3 flex-1">
         {note.description}
       </p>
 
-      <div className="flex items-center justify-between pt-1 mt-auto">
-        <span className="text-[11px] text-stone-400 font-medium tracking-wide">
+      {/* Footer */}
+      <div className="flex items-center justify-between pt-1 mt-auto gap-2">
+        <span className="text-[10px] sm:text-[11px] text-stone-400 font-medium tracking-wide shrink-0">
           {formatDate(note.createdAt)}
         </span>
 
-        <div className="flex items-center gap-1 opacity-100">
+        <div className="flex items-center gap-0.5 sm:gap-1">
+          {/* Pin */}
           <button
             onClick={() => onPin(note)}
             title={note.isPinned ? "Unpin" : "Pin"}
-            className={`p-1.5 rounded-lg transition-colors ${
+            className={`p-2 sm:p-1.5 rounded-lg transition-colors touch-manipulation ${
               note.isPinned
                 ? "text-amber-500 hover:bg-amber-100"
                 : "text-stone-400 hover:bg-stone-100 hover:text-amber-500"
             }`}
           >
             <svg
-              className="w-3.5 h-3.5"
+              className="w-3.5 h-3.5 sm:w-3.5 sm:h-3.5"
               fill="currentColor"
               viewBox="0 0 24 24"
             >
@@ -76,9 +82,10 @@ const NoteCard = ({ note, onEdit, onDelete, onPin }) => {
             </svg>
           </button>
 
+          {/* Edit */}
           <button
             onClick={() => onEdit(note)}
-            className="p-1.5 rounded-lg text-stone-400 hover:bg-blue-50 hover:text-blue-500 transition-colors"
+            className="p-2 sm:p-1.5 rounded-lg text-stone-400 hover:bg-blue-50 hover:text-blue-500 transition-colors touch-manipulation"
           >
             <svg
               className="w-3.5 h-3.5"
@@ -95,9 +102,10 @@ const NoteCard = ({ note, onEdit, onDelete, onPin }) => {
             </svg>
           </button>
 
+          {/* Delete */}
           <button
             onClick={handleDelete}
-            className="p-1.5 rounded-lg text-stone-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+            className="p-2 sm:p-1.5 rounded-lg text-stone-400 hover:bg-red-50 hover:text-red-500 transition-colors touch-manipulation"
           >
             <svg
               className="w-3.5 h-3.5"

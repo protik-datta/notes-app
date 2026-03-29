@@ -25,16 +25,16 @@ const NoteModal = ({ isOpen, onClose, onSave, editNote }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/40 backdrop-blur-md"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-stone-900/40 backdrop-blur-md"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg rounded-3xl bg-white shadow-2xl"
+        className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
         style={{ animation: "modalIn .2s cubic-bezier(.4,0,.2,1)" }}
       >
-        <div className="flex items-center justify-between px-6 pt-5 pb-3 border-b border-stone-100">
-          <h2 className="text-lg font-bold text-stone-800 tracking-tight">
+        <div className="flex items-center justify-between px-4 sm:px-6 pt-4 sm:pt-5 pb-3 border-b border-stone-100">
+          <h2 className="text-base sm:text-lg font-bold text-stone-800 tracking-tight">
             {editNote ? "Edit Note" : "New Note"}
           </h2>
           <button
@@ -57,7 +57,7 @@ const NoteModal = ({ isOpen, onClose, onSave, editNote }) => {
           </button>
         </div>
 
-        <div className="px-6 py-4 flex flex-col gap-4">
+        <div className="px-4 sm:px-6 py-4 flex flex-col gap-4">
           <div>
             <label className="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1.5 block">
               Title
@@ -67,9 +67,10 @@ const NoteModal = ({ isOpen, onClose, onSave, editNote }) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Note title..."
-              className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-stone-800 text-sm placeholder:text-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+              className="w-full px-3 sm:px-4 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-stone-800 text-sm placeholder:text-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
             />
           </div>
+
           <div>
             <label className="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-1.5 block">
               Description
@@ -79,22 +80,23 @@ const NoteModal = ({ isOpen, onClose, onSave, editNote }) => {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Write your note here..."
               rows={5}
-              className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-stone-800 text-sm placeholder:text-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all resize-none"
+              className="w-full px-3 sm:px-4 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-stone-800 text-sm placeholder:text-stone-300 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all resize-none"
             />
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 px-6 pb-5">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 sm:gap-3 px-4 sm:px-6 pb-4 sm:pb-5">
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl text-sm font-medium text-stone-500 hover:bg-stone-100 transition-colors"
+            className="w-full sm:w-auto px-5 py-2 rounded-xl text-sm font-medium text-stone-500 hover:bg-stone-100 transition-colors"
           >
             Cancel
           </button>
+
           <button
             onClick={handleSubmit}
             disabled={!title.trim() || !description.trim() || loading}
-            className="px-6 py-2 rounded-xl text-sm font-semibold bg-stone-900 text-white hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-2 shadow-lg shadow-stone-900/20"
+            className="w-full sm:w-auto px-6 py-2 rounded-xl text-sm font-semibold bg-stone-900 text-white hover:bg-stone-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 shadow-lg shadow-stone-900/20"
           >
             {loading ? (
               <svg
