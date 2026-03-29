@@ -23,7 +23,7 @@ const Register = ({ onLoginSuccess }) => {
     setError("");
 
     try {
-      const { data } = await api.post("/api/auth/register", { email, password });
+      const { data } = await api.post("/api/register", { email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify({ email: data.email }));
       onLoginSuccess(data.email);
