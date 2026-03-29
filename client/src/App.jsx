@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const API = import.meta.env.API;
+const API = `${import.meta.env.VITE_API_URL}/api/notes`;
 
 const formatDate = (d) =>
   new Date(d || Date.now()).toLocaleDateString("en-GB", {
